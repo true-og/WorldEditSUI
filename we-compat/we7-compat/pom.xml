@@ -6,7 +6,7 @@
     <parent>
         <groupId>eu.kennytv.worldeditsui</groupId>
         <artifactId>we-compat</artifactId>
-        <version>1.7.3-SNAPSHOT</version>
+        <version>1.7.3</version>
     </parent>
 
     <artifactId>we7-compat</artifactId>
@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
-            <version>7.1.0-SNAPSHOT</version>
+            <version>7.0.9</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

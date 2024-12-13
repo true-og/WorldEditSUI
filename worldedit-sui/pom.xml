@@ -6,8 +6,35 @@
     <parent>
         <groupId>eu.kennytv.worldeditsui</groupId>
         <artifactId>worldedit-sui-parent</artifactId>
-        <version>1.7.3-SNAPSHOT</version>
+        <version>1.7.3</version>
     </parent>
+
+        <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy
+				    file="target/WorldEditSUI-${project.version}.jar"
+				    todir="../target"
+                                    overwrite="true"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <artifactId>worldedit-sui</artifactId>
     <name>WorldEditSUI</name>
