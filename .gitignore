@@ -92,3 +92,5 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 *.lnk
+/.gradle/
+/build/
