@@ -1,5 +1,3 @@
-/* This is free and unencumbered software released into the public domain */
-
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.kotlin.dsl.provideDelegate
 
@@ -65,7 +63,7 @@ subprojects {
                 logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 for mavenLocal()")
                 mavenLocal()
             }
-        } ?: logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 for mavenLocal()")
+        }
     }
 }
 
@@ -93,6 +91,7 @@ project(":worldedit-sui") {
         relocate("org.bstats", "eu.kennytv.worldeditsui.lib.bstats")
         archiveBaseName.set("WorldEditSUI")
         archiveClassifier.set("")
+        destinationDirectory.set(rootProject.layout.buildDirectory.dir("libs"))
         minimize()
         manifest { attributes(mapOf("paperweight-mappings-namespace" to "mojang")) }
     }
