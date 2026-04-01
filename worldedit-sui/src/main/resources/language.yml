@@ -1,4 +1,4 @@
-prefix: "&8[&eWorldEditSUI&8]"
+prefix: "&7[&eWorldEditSUI&7]"
 
 noPermission: "%prefix% &cYou don't have the permission to use this command."
 particlesShown: "%prefix% &aParticles of your selection are now shown!"
