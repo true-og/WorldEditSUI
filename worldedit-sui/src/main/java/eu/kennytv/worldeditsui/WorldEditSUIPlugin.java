@@ -50,11 +50,6 @@ import eu.kennytv.worldeditsui.util.Cancellable;
 import eu.kennytv.worldeditsui.util.CancellableBukkitTask;
 import eu.kennytv.worldeditsui.util.CancellableScheduledTask;
 import eu.kennytv.worldeditsui.util.ParticleHelper;
-import eu.kennytv.worldeditsui.util.Version;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.bstats.bukkit.Metrics;
@@ -68,7 +63,6 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 public final class WorldEditSUIPlugin extends JavaPlugin {
 
     private static final boolean FOLIA = hasClass("io.papermc.paper.threadedregions.scheduler.EntityScheduler");
-    private static final String PREFIX = "§8[§eWorldEditSUI§8] ";
     private RegionHelper regionHelper;
     private ProtectedRegionHelper protectedRegionHelper;
     private ParticleHelper particleHelper;
@@ -76,17 +70,12 @@ public final class WorldEditSUIPlugin extends JavaPlugin {
     private Settings settings;
     private DrawManager drawManager;
     private WorldEditPlugin worldEditPlugin;
-    private Version version;
-    private Version newestVersion;
     private Cancellable expiryTask;
     private Cancellable persistentTogglesTask;
     private boolean worldGuardEnabled;
 
     @Override
     public void onEnable() {
-        version = new Version(getDescription().getVersion());
-        printEnableMessage();
-
         try {
             Class.forName("org.bukkit.Particle");
         } catch (final ClassNotFoundException e) {
@@ -121,7 +110,7 @@ public final class WorldEditSUIPlugin extends JavaPlugin {
         // Imagine someone using the server reload command 👀
         getServer().getOnlinePlayers().forEach(p -> userManager.createUser(p));
 
-        pm.registerEvents(new PlayerJoinListener(this), this);
+        pm.registerEvents(new PlayerJoinListener(userManager), this);
         pm.registerEvents(new PlayerQuitListener(userManager), this);
         pm.registerEvents(new WESelectionListener(this), this);
 
@@ -157,49 +146,6 @@ public final class WorldEditSUIPlugin extends JavaPlugin {
             return new CancellableScheduledTask(getServer().getGlobalRegionScheduler().runAtFixedRate(this, task -> runnable.run(), delay, period));
         } else {
             return new CancellableBukkitTask(getServer().getScheduler().runTaskTimer(this, runnable, delay, period));
-        }
-    }
-
-    public void runAsync(final Runnable runnable) {
-        if (FOLIA) {
-            getServer().getAsyncScheduler().runNow(this, task -> runnable.run());
-        } else {
-            getServer().getScheduler().runTaskAsynchronously(this, runnable);
-        }
-    }
-
-    private void printEnableMessage() {
-        runAsync(() -> {
-            checkForLatestVersion();
-            final int compare = version.compareTo(newestVersion);
-            if (compare < 0) {
-                getLogger().info("§cNewest version available: §aVersion " + newestVersion + "§c, you're on §a" + version);
-            } else if (compare > 0) {
-                if (version.getTag().equalsIgnoreCase("snapshot")) {
-                    getLogger().info("§cYou're running a development version, please report bugs on the Discord server (https://discord.gg/vGCUzHq).");
-                } else {
-                    getLogger().info("§cYou're running a version, that doesn't exist! §cN§ai§dc§ee§5!");
-                }
-            }
-        });
-    }
-
-    public boolean checkForLatestVersion() {
-        try {
-            final URLConnection connection = new URL("https://hangar.papermc.io/api/v1/projects/WorldEditSUI/latestrelease").openConnection();
-            connection.setRequestProperty("User-Agent", "WorldEditSUI/" + getVersion());
-            try (final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                final String newVersionString = reader.readLine();
-                final Version newVersion = new Version(newVersionString);
-                if (newVersion.equals(version)) {
-                    return false;
-                }
-
-                newestVersion = newVersion;
-                return version.compareTo(newVersion) < 0;
-            }
-        } catch (final Exception ignored) {
-            return false;
         }
     }
 
@@ -364,18 +310,6 @@ public final class WorldEditSUIPlugin extends JavaPlugin {
 
     public Settings getSettings() {
         return settings;
-    }
-
-    public String getPrefix() {
-        return PREFIX;
-    }
-
-    public Version getVersion() {
-        return version;
-    }
-
-    public Version getNewestVersion() {
-        return newestVersion;
     }
 
     public RegionHelper getRegionHelper() {

@@ -59,7 +59,6 @@ public final class Settings {
     private boolean cacheLocations;
     private boolean expiryEnabled;
     private boolean expireMessage;
-    private boolean updateChecks;
     private boolean sendParticlesToAll;
     private boolean persistentToggles;
     private boolean showByDefault;
@@ -156,7 +155,6 @@ public final class Settings {
         }
 
         cacheLocations = config.getBoolean("cache-calculated-positions", true);
-        updateChecks = config.getBoolean("update-checks", true);
         persistentToggles = config.getBoolean("persistent-toggles");
         showByDefault = config.getBoolean("show-selection-by-default", true);
         showClipboardByDefault = config.getBoolean("show-clipboard-by-default");
@@ -347,10 +345,6 @@ public final class Settings {
 
     public boolean hasExpireMessage() {
         return expireMessage;
-    }
-
-    public boolean hasUpdateChecks() {
-        return updateChecks;
     }
 
     public boolean sendParticlesToAll(final DrawedType drawedType) {

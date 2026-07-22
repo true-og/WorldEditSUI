@@ -153,7 +153,7 @@ public final class WESUICommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(getMessage("helpToggleClipboard"));
         if (plugin.isWorldGuardEnabled() && sender.hasPermission("wesui.command.showregion"))
             sender.sendMessage(getMessage("helpShowRegion"));
-        sender.sendMessage("§8× §eVersion " + plugin.getVersion() + " §7by §bkennytv");
+        sender.sendMessage("§8× §eVersion " + plugin.getDescription().getVersion() + " §7by §bkennytv");
         sender.sendMessage(getMessage("helpHeader"));
         sender.sendMessage("");
     }

@@ -95,6 +95,3 @@ persistent-toggles: true
 # Changes the distance from which particles can be seen, can be set from 1 to 500 (if you for some reason want to see them 500 blocks away).
 # This does NOT affect server performance in any way.
 particle-viewdistance: 250
-
-# Recommended to have this enabled, as you'd else miss out on new features and overall improvements.
-update-checks: false
